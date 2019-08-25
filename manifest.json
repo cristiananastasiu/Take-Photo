@@ -3,7 +3,7 @@
     "language": "python",
     "author": "Cristian Anastasiu",
     "description": "Takes a photo, configured for ELP 2MP USB camera",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "min_os_version_major": 6,
     "url": "https://raw.githubusercontent.com/cristiananastasiu/Take-Photo/master/manifest.json",
     "zip": "https://github.com/cristiananastasiu/Take-Photo/archive/master.zip",
