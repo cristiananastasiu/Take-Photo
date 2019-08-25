@@ -8,5 +8,5 @@
     "url": "https://raw.githubusercontent.com/cristiananastasiu/Take-Photo/master/manifest.json",
     "zip": "https://github.com/cristiananastasiu/Take-Photo/archive/master.zip",
     "executable": "python",
-    "args": ["Take-Photo/take_photo.py"]
+    "args": ["Take-Photo-master/take_photo.py"]
    }
