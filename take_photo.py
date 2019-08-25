@@ -49,6 +49,17 @@ else:
         'Send a log message.'
         device.log('[take-photo] {}'.format(message), message_type)
 
+def adjust_gamma(image, gamma=1.0):
+	# build a lookup table mapping the pixel values [0, 255] to
+	# their adjusted gamma values
+	invGamma = 1.0 / gamma
+	table = np.array([((i / 255.0) ** invGamma) * 255
+		for i in np.arange(0, 256)]).astype("uint8")
+
+	# apply gamma correction using the lookup table
+	return cv2.LUT(image, table)
+
+
 def rotate(image):
     'Rotate image if calibration data exists.'
     angle = float(os.environ['CAMERA_CALIBRATION_total_rotation_angle'])
@@ -94,7 +105,7 @@ def usb_camera_photo():
     'Take a photo using a USB camera.'
     # Settings
     camera_port = 0      # default USB camera port
-    discard_frames = 20  # number of frames to discard for auto-adjust
+    discard_frames = 50  # number of frames to discard for auto-adjust
 
     # Check for camera
     if not os.path.exists('/dev/video' + str(camera_port)):
@@ -107,6 +118,11 @@ def usb_camera_photo():
 
     # Open the camera
     camera = cv2.VideoCapture(camera_port)
+
+    camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+    camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+
+
     sleep(0.1)
 
     # Let camera adjust
@@ -116,12 +132,16 @@ def usb_camera_photo():
     # Take a photo
     ret, image = camera.read()
 
+
+    # Adjust gamma
+    adjusted = adjust_gamma(image, gamma=0.6) 
+
     # Close the camera
     camera.release()
 
     # Output
     if ret:  # an image has been returned by the camera
-        save_image(image)
+        save_image(adjusted)
     else:  # no image has been returned by the camera
         log('Problem getting image.', 'error')
 
