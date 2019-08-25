@@ -142,6 +142,8 @@ def rpi_camera_photo():
         log('Raspberry Pi Camera not detected.', 'error')
 
 if __name__ == '__main__':
+    log('Entering take_photo main method.', 'info')
+
     try:
         CAMERA = os.environ['camera']
     except (KeyError, ValueError):
