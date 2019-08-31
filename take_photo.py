@@ -51,10 +51,11 @@ else:
 
 
 def undistort(img):
-    log('Undistoring image.', 'info')
+    log('Undistorting image.', 'info')
 
     try:
-        (ret, mtx, dist, rvecs, tvecs) = np.load('Take-Photo-master/calibration.npy', allow_pickle=True)
+        mtx = np.load('Take-Photo-master/calibration/mtx.npy')
+        dist = np.load('Take-Photo-master/calibration/dist.npy')
         
         h,  w = img.shape[:2]
         newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
