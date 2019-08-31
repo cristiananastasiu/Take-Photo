@@ -51,7 +51,7 @@ else:
 
 
 def undistort(img):
-    'Undistoring image.'
+    log('Undistoring image.', 'info')
 
     (ret, mtx, dist, rvecs, tvecs) = np.load('./Take-Photo-master/calibration.npy', allow_pickle=True)
     h,  w = img.shape[:2]
@@ -66,7 +66,7 @@ def undistort(img):
     return dst
 
 def adjust_gamma(image, gamma=1.0):
-    'Adjusting gamma.'
+    log('Adjusting gamma.', 'info')
 
 	# build a lookup table mapping the pixel values [0, 255] to
 	# their adjusted gamma values
@@ -80,7 +80,7 @@ def adjust_gamma(image, gamma=1.0):
 
 
 def rotate(image):
-    'Rotate image if calibration data exists.'
+    log('Rotate image if calibration data exists.', 'info')
 
     angle = float(os.environ['CAMERA_CALIBRATION_total_rotation_angle'])
     sign = -1 if angle < 0 else 1
