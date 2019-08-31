@@ -65,8 +65,7 @@ def undistort(img):
 
         # crop the image
         x,y,w,h = roi
-        dst = dst[y:y+h, x:x+w]
-        return dst
+        img = dst[y:y+h, x:x+w]
 
     except FileNotFoundError as e:
         log(e.message, 'error')
