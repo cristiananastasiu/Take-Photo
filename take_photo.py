@@ -113,17 +113,18 @@ def upload_path(filename):
 def save_image(image):
     'Save an image to file after attempting rotation.'
     filename = image_filename()
-    # Try to rotate the image
+    # Try to process image
     try:
-        # Rotate image
-        h, w, _ = image.shape
-        log('Image w: {} h:{}'.format(w, h), 'debug')
-        final_image = rotate(image)
 
         # Undistort image
+        h, w, _ = image.shape
+        log('Image w: {} h:{}'.format(w, h), 'debug')
+        final_image = undistort(image)
+
+        # Rotate image
         h, w, _ = final_image.shape
         log('Image w: {} h:{}'.format(w, h), 'debug')
-        final_image = undistort(final_image)
+        final_image = rotate(image)
         
         # Adjust gamma
         h, w, _ = final_image.shape
