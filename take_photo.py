@@ -191,6 +191,7 @@ def rpi_camera_photo():
         log('Raspberry Pi Camera not detected.', 'error')
 
 if __name__ == '__main__':
+    log("OpenCV version: %s" % cv2.__version__, 'info')
     log('Entering take_photo main method.', 'info')
 
     cwd = os.getcwd()
