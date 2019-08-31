@@ -97,7 +97,7 @@ def rotate(image):
     height, width, _ = image.shape
     matrix = cv2.getRotationMatrix2D((int(width / 2), int(height / 2)), angle, 1)
 
-    log('Image size: w:{}, h:{}'.format(width, height), info)
+    log('Image size: w:{}, h:{}'.format(width, height), 'info')
     return cv2.warpAffine(image, matrix, (width, height))
 
 def image_filename():
