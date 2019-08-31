@@ -68,7 +68,7 @@ def undistort(img):
         dst = dst[y:y+h, x:x+w]
         return dst
 
-    except Exception as e:
+    except FileNotFoundError: as e:
         log(e.message, 'error')
     
     return img
@@ -198,7 +198,8 @@ if __name__ == '__main__':
     cwd = os.getcwd()
     
     log('Current directory: %s' % cwd, 'info')
-    # log(os.listdir(cwd), 'info')
+    
+    log(os.listdir('/root/farmware/Take Photo C.A./'), 'info')
 
     try:
         CAMERA = os.environ['camera']
