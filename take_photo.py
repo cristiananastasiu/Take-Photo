@@ -166,7 +166,7 @@ def usb_camera_photo():
     adjusted = undistort(image)
     
     # Adjust gamma
-    adjusted = adjust_gamma(image, gamma=0.55) 
+    adjusted = adjust_gamma(adjusted, gamma=0.55) 
 
     # Output
     if ret:  # an image has been returned by the camera
