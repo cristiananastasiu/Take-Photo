@@ -61,7 +61,7 @@ def undistort(img):
     h,  w = img.shape[:2]
 
     log('Getting Optimal New Camera matrix.', 'info')
-    newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
+    newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),0,(w,h))
 
     # undistort
     log('Undistorting image.', 'info')
