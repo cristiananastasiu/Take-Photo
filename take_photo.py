@@ -66,6 +66,7 @@ def undistort(img):
     return dst
 
 def adjust_gamma(image, gamma=1.0):
+    log('Adjusting gamma.', 'info')
 	# build a lookup table mapping the pixel values [0, 255] to
 	# their adjusted gamma values
 	invGamma = 1.0 / gamma
@@ -77,7 +78,8 @@ def adjust_gamma(image, gamma=1.0):
 
 
 def rotate(image):
-    'Rotate image if calibration data exists.'
+    log('Rotate image if calibration data exists.', 'info')
+    
     angle = float(os.environ['CAMERA_CALIBRATION_total_rotation_angle'])
     sign = -1 if angle < 0 else 1
     turns, remainder = -int(angle / 90.), abs(angle) % 90  # 165 --> -1, 75
