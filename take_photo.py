@@ -11,8 +11,6 @@ import requests
 import numpy as np
 import cv2
 
-# (ret, mtx, dist, rvecs, tvecs) = np.load('./calibration.npy', allow_pickle=True)
-
 try:
     from farmware_tools.env import Env
 except ImportError:
@@ -53,6 +51,7 @@ else:
 
 
 def undistort(img):
+    (ret, mtx, dist, rvecs, tvecs) = np.load('./calibration.npy', allow_pickle=True)
     h,  w = img.shape[:2]
     newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
 
@@ -184,6 +183,7 @@ if __name__ == '__main__':
     cwd = os.getcwd()
     
     log('Current directory: %s' % cwd, 'info')
+    log(os.listdir(cwd), 'info')
 
     try:
         CAMERA = os.environ['camera']
