@@ -68,7 +68,7 @@ def undistort(img):
         dst = dst[y:y+h, x:x+w]
         return dst
 
-    except FileNotFoundError: as e:
+    except FileNotFoundError as e:
         log(e.message, 'error')
     
     return img
