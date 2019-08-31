@@ -83,21 +83,19 @@ def adjust_gamma(image, gamma=1.0):
 
 
 def crop(image):
-    log('Cropping center to 640px.', 'debug')
-    cropSize = 640
+    log('Cropping to square.', 'debug')
+    
 
     height, width, _ = image.shape
+
+    cropSize = min(height, width)
     
-    if cropSize < height and cropSize < width:
-        offsetH = int((height - cropSize) / 2)
-        offsetW = int((width - cropSize) / 2)
+    offsetH = int((height - cropSize) / 2)
+    offsetW = int((width - cropSize) / 2)
 
-
-        cropped_image = image[offsetH:offsetH+cropSize, offsetW:offsetW+cropSize]
-        return cropped_image
-    else:
-        return image
-
+    cropped_image = image[offsetH:offsetH+cropSize, offsetW:offsetW+cropSize]
+    return cropped_image
+    
 def rotate(image):
     log('Rotate image if calibration data exists.', 'debug')
 
