@@ -83,6 +83,7 @@ def adjust_gamma(image, gamma=1.0):
 
 
 def crop(image):
+    log('Cropping center to 640px.', 'debug')
     cropSize = 640
 
     height, width, _ = image.shape
