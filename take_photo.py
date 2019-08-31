@@ -51,27 +51,27 @@ else:
 
 
 def undistort(img):
-    log('Undistorting image.', 'info')
-    ret = img
-    try:
-        mtx = np.load('Take-Photo-master/calibration/mtx.npy')
-        dist = np.load('Take-Photo-master/calibration/dist.npy')
-        
-        h,  w = img.shape[:2]
-        newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
+    log('Entering undistort function.', 'info')
 
-        # undistort
-        dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
-
-        # crop the image
-        x,y,w,h = roi
-        ret = dst[y:y+h, x:x+w]
-
-    except FileNotFoundError as e:
-        log(e.message, 'error')
+    log('Loading serialized numpy objects', 'info')
     
-    return ret
+    mtx = np.load('Take-Photo-master/calibration/mtx.npy')
+    dist = np.load('Take-Photo-master/calibration/dist.npy')
+    
+    h,  w = img.shape[:2]
 
+    log('Getting Optimal New Camera matrix.', 'info')
+    newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
+
+    # undistort
+    log('Undistorting image.', 'info')
+    dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
+
+    # crop the image
+    x,y,w,h = roi
+    dst = dst[y:y+h, x:x+w]
+
+    return dst
 def adjust_gamma(image, gamma=1.0):
     log('Adjusting gamma.', 'info')
 
@@ -199,6 +199,8 @@ if __name__ == '__main__':
     log('Current directory: %s' % cwd, 'info')
     
     log(os.listdir('/root/farmware/Take Photo C.A./'), 'info')
+    log(os.listdir('/root/farmware/Take Photo C.A./Take-Photo-master/'), 'info')
+    
 
     try:
         CAMERA = os.environ['camera']
