@@ -151,6 +151,9 @@ def save_image(image):
         log('Image w: {} h:{}'.format(w, h), 'debug')
         final_image = crop(final_image) 
 
+        h, w, _ = final_image.shape
+        log('Image w: {} h:{}'.format(w, h), 'debug')
+
     except:
         final_image = image
     else:
