@@ -150,7 +150,7 @@ def usb_camera_photo():
     camera.release()
 
     # Undistort image
-    # adjusted = undistort(image)
+    adjusted = undistort(image)
     
     # Adjust gamma
     adjusted = adjust_gamma(image, gamma=0.55) 
