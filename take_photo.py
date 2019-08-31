@@ -55,19 +55,22 @@ def undistort(img):
 
     try:
         (ret, mtx, dist, rvecs, tvecs) = np.load('Take-Photo-master/calibration.npy', allow_pickle=True)
+        
+        h,  w = img.shape[:2]
+        newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
+
+        # undistort
+        dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
+
+        # crop the image
+        x,y,w,h = roi
+        dst = dst[y:y+h, x:x+w]
+        return dst
+
     except Exception as e:
         log(e.message, 'error')
-        
-    h,  w = img.shape[:2]
-    newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
-
-    # undistort
-    dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
-
-    # crop the image
-    x,y,w,h = roi
-    dst = dst[y:y+h, x:x+w]
-    return dst
+    
+    return img
 
 def adjust_gamma(image, gamma=1.0):
     log('Adjusting gamma.', 'info')
