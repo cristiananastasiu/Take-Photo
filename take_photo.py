@@ -82,6 +82,20 @@ def adjust_gamma(image, gamma=1.0):
     return cv2.LUT(image, table)
 
 
+def crop(image):
+    cropSize = 640
+
+    height, width, _ = image.shape
+    
+    if cropSize > height and cropSize > width:
+        offsetH = (height - cropSize) / 2
+        offsetW = (width - cropSize) / 2
+
+        cropped_image = image[offsetH:offsetH+cropSize, offsetW:offsetW+cropSize]
+        return cropped_image
+    else:
+        return image
+
 def rotate(image):
     log('Rotate image if calibration data exists.', 'debug')
 
@@ -131,6 +145,11 @@ def save_image(image):
         log('Image w: {} h:{}'.format(w, h), 'debug')
         final_image = adjust_gamma(final_image, gamma=0.55) 
         
+        # Crop image
+        h, w, _ = final_image.shape
+        log('Image w: {} h:{}'.format(w, h), 'debug')
+        final_image = crop(final_image) 
+
     except:
         final_image = image
     else:
