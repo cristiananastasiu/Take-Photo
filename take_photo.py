@@ -11,6 +11,8 @@ import requests
 import numpy as np
 import cv2
 
+(ret, mtx, dist, rvecs, tvecs) = np.load('./calibration.npy', allow_pickle=True)
+
 try:
     from farmware_tools.env import Env
 except ImportError:
@@ -49,11 +51,24 @@ else:
         'Send a log message.'
         device.log('[take-photo] {}'.format(message), message_type)
 
+
+def undistort(img):
+    h,  w = img.shape[:2]
+    newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
+
+    # undistort
+    dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
+
+    # crop the image
+    x,y,w,h = roi
+    dst = dst[y:y+h, x:x+w]
+    return dst
+
 def adjust_gamma(image, gamma=1.0):
 	# build a lookup table mapping the pixel values [0, 255] to
 	# their adjusted gamma values
 	invGamma = 1.0 / gamma
-	table = np.array([((i / 255.0) ** invGamma) * 255
+	table = np.array([ ((i / 255.0) ** invGamma) * 255
 		for i in np.arange(0, 256)]).astype("uint8")
 
 	# apply gamma correction using the lookup table
@@ -105,7 +120,7 @@ def usb_camera_photo():
     'Take a photo using a USB camera.'
     # Settings
     camera_port = 0      # default USB camera port
-    discard_frames = 50  # number of frames to discard for auto-adjust
+    discard_frames = 25  # number of frames to discard for auto-adjust
 
     # Check for camera
     if not os.path.exists('/dev/video' + str(camera_port)):
@@ -132,12 +147,14 @@ def usb_camera_photo():
     # Take a photo
     ret, image = camera.read()
 
-
-    # Adjust gamma
-    adjusted = adjust_gamma(image, gamma=0.6) 
-
     # Close the camera
     camera.release()
+
+    # Undistort image
+    adjusted = undistort(image)
+    
+    # Adjust gamma
+    adjusted = adjust_gamma(image, gamma=0.55) 
 
     # Output
     if ret:  # an image has been returned by the camera
