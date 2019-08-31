@@ -52,7 +52,7 @@ else:
 
 def undistort(img):
     log('Undistorting image.', 'info')
-
+    ret = img
     try:
         mtx = np.load('Take-Photo-master/calibration/mtx.npy')
         dist = np.load('Take-Photo-master/calibration/dist.npy')
@@ -65,12 +65,12 @@ def undistort(img):
 
         # crop the image
         x,y,w,h = roi
-        img = dst[y:y+h, x:x+w]
+        ret = dst[y:y+h, x:x+w]
 
     except FileNotFoundError as e:
         log(e.message, 'error')
     
-    return img
+    return ret
 
 def adjust_gamma(image, gamma=1.0):
     log('Adjusting gamma.', 'info')
