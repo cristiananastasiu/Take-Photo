@@ -56,12 +56,11 @@ def undistort(img):
     log('Loading serialized numpy objects', 'info')
     
     mtx = np.load('Take-Photo-master/calibration/mtx.npy')
-    dist = np.load('Take-Photo-master/calibration/dist.npy')
+    dist = np.load('Take-Photo-master/calibration/roi.npy')
+    roi = np.load('Take-Photo-master/calibration/roi.npy')
+    newcameramtx = np.load('Take-Photo-master/calibration/newcameramtx.npy')
     
     h,  w = img.shape[:2]
-
-    log('Getting Optimal New Camera matrix.', 'info')
-    newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),0,(w,h))
 
     # undistort
     log('Undistorting image.', 'info')
