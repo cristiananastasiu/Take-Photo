@@ -11,7 +11,7 @@ import requests
 import numpy as np
 import cv2
 
-(ret, mtx, dist, rvecs, tvecs) = np.load('./calibration.npy', allow_pickle=True)
+# (ret, mtx, dist, rvecs, tvecs) = np.load('./calibration.npy', allow_pickle=True)
 
 try:
     from farmware_tools.env import Env
@@ -151,7 +151,7 @@ def usb_camera_photo():
     camera.release()
 
     # Undistort image
-    adjusted = undistort(image)
+    # adjusted = undistort(image)
     
     # Adjust gamma
     adjusted = adjust_gamma(image, gamma=0.55) 
@@ -180,6 +180,10 @@ def rpi_camera_photo():
 
 if __name__ == '__main__':
     log('Entering take_photo main method.', 'info')
+
+    cwd = os.getcwd()
+    
+    log('Current directory: %s' % cwd, 'info')
 
     try:
         CAMERA = os.environ['camera']
