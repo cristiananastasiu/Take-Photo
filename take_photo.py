@@ -88,7 +88,7 @@ def crop(image):
 
     height, width, _ = image.shape
     
-    if cropSize > height and cropSize > width:
+    if cropSize < height and cropSize < width:
         offsetH = (height - cropSize) / 2
         offsetW = (width - cropSize) / 2
 
