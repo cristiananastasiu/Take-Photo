@@ -124,7 +124,7 @@ def save_image(image):
         # Rotate image
         h, w, _ = final_image.shape
         log('Image w: {} h:{}'.format(w, h), 'debug')
-        final_image = rotate(image)
+        final_image = rotate(final_image)
         
         # Adjust gamma
         h, w, _ = final_image.shape
