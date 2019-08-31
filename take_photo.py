@@ -51,9 +51,7 @@ else:
 
 
 def undistort(img):
-    log('Entering undistort function.', 'debug')
-
-    log('Loading serialized numpy objects', 'debug')
+    log('Undistorting image.', 'debug')
     
     mtx = np.load('Take-Photo-master/calibration/mtx.npy')
     dist = np.load('Take-Photo-master/calibration/dist.npy')
@@ -63,7 +61,6 @@ def undistort(img):
     # h,  w = img.shape[:2]
 
     # undistort
-    log('Undistorting image.', 'debug')
     dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
 
     # crop the image
@@ -97,7 +94,6 @@ def rotate(image):
     height, width, _ = image.shape
     matrix = cv2.getRotationMatrix2D((int(width / 2), int(height / 2)), angle, 1)
 
-    log('Image size: w:{}, h:{}'.format(width, height), 'info')
     return cv2.warpAffine(image, matrix, (width, height))
 
 def image_filename():
@@ -119,7 +115,21 @@ def save_image(image):
     filename = image_filename()
     # Try to rotate the image
     try:
+        # Rotate image
+        h, w, _ = image.shape
+        log('Image w: {} h:{}'.format(w, h), 'debug')
         final_image = rotate(image)
+
+        # Undistort image
+        h, w, _ = final_image.shape
+        log('Image w: {} h:{}'.format(w, h), 'debug')
+        final_image = undistort(final_image)
+        
+        # Adjust gamma
+        h, w, _ = final_image.shape
+        log('Image w: {} h:{}'.format(w, h), 'debug')
+        final_image = adjust_gamma(final_image, gamma=0.55) 
+        
     except:
         final_image = image
     else:
@@ -163,15 +173,9 @@ def usb_camera_photo():
     # Close the camera
     camera.release()
 
-    # Undistort image
-    adjusted = undistort(image)
-    
-    # Adjust gamma
-    adjusted = adjust_gamma(adjusted, gamma=0.55) 
-
     # Output
     if ret:  # an image has been returned by the camera
-        save_image(adjusted)
+        save_image(image)
     else:  # no image has been returned by the camera
         log('Problem getting image.', 'error')
 
