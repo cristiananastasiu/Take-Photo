@@ -51,9 +51,9 @@ else:
 
 
 def undistort(img):
-    log('Entering undistort function.', 'info')
+    log('Entering undistort function.', 'debug')
 
-    log('Loading serialized numpy objects', 'info')
+    log('Loading serialized numpy objects', 'debug')
     
     mtx = np.load('Take-Photo-master/calibration/mtx.npy')
     dist = np.load('Take-Photo-master/calibration/dist.npy')
@@ -63,7 +63,7 @@ def undistort(img):
     # h,  w = img.shape[:2]
 
     # undistort
-    log('Undistorting image.', 'info')
+    log('Undistorting image.', 'debug')
     dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
 
     # crop the image
@@ -72,7 +72,7 @@ def undistort(img):
 
     return dst
 def adjust_gamma(image, gamma=1.0):
-    log('Adjusting gamma.', 'info')
+    log('Adjusting gamma.', 'debug')
 
 	# build a lookup table mapping the pixel values [0, 255] to
 	# their adjusted gamma values
@@ -86,7 +86,7 @@ def adjust_gamma(image, gamma=1.0):
 
 
 def rotate(image):
-    log('Rotate image if calibration data exists.', 'info')
+    log('Rotate image if calibration data exists.', 'debug')
 
     angle = float(os.environ['CAMERA_CALIBRATION_total_rotation_angle'])
     sign = -1 if angle < 0 else 1
@@ -190,15 +190,8 @@ def rpi_camera_photo():
         log('Raspberry Pi Camera not detected.', 'error')
 
 if __name__ == '__main__':
-    log("OpenCV version: %s" % cv2.__version__, 'info')
-    log('Entering take_photo main method.', 'info')
-
-    cwd = os.getcwd()
+    log("OpenCV version: %s" % cv2.__version__, 'debug')
     
-    log('Current directory: %s' % cwd, 'info')
-    
-    log(os.listdir('/root/farmware/Take Photo C.A./'), 'info')
-    log(os.listdir('/root/farmware/Take Photo C.A./Take-Photo-master/'), 'info')
     
 
     try:
