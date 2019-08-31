@@ -51,7 +51,7 @@ else:
 
 
 def undistort(img):
-    (ret, mtx, dist, rvecs, tvecs) = np.load('./calibration.npy', allow_pickle=True)
+    (ret, mtx, dist, rvecs, tvecs) = np.load('./Take-Photo-master/calibration.npy', allow_pickle=True)
     h,  w = img.shape[:2]
     newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
 
