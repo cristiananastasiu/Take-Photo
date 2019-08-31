@@ -51,6 +51,8 @@ else:
 
 
 def undistort(img):
+    log('Undistoring image.', 'info')
+
     (ret, mtx, dist, rvecs, tvecs) = np.load('./Take-Photo-master/calibration.npy', allow_pickle=True)
     h,  w = img.shape[:2]
     newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
@@ -183,7 +185,7 @@ if __name__ == '__main__':
     cwd = os.getcwd()
     
     log('Current directory: %s' % cwd, 'info')
-    log(os.listdir(cwd), 'info')
+    # log(os.listdir(cwd), 'info')
 
     try:
         CAMERA = os.environ['camera']
