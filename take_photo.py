@@ -138,12 +138,12 @@ def save_image(image):
         # Rotate image
         h, w, _ = final_image.shape
         log('Image w: {} h:{}'.format(w, h), 'debug')
-        final_image = rotate(final_image)
+        # final_image = rotate(final_image)
         
         # Adjust gamma
         h, w, _ = final_image.shape
         log('Image w: {} h:{}'.format(w, h), 'debug')
-        # final_image = adjust_gamma(final_image, gamma=0.55) 
+        final_image = adjust_gamma(final_image, gamma=0.55) 
         
         # Crop image
         h, w, _ = final_image.shape
